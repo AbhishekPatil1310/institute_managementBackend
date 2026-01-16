@@ -1,0 +1,83 @@
+{
+  "version": "1.0.0",
+  "darkMode": true,
+  "gridEnabling": false,
+  "detailLevel": "All",
+  "tablePositions": [
+    {
+      "name": "users",
+      "schemaName": "public",
+      "x": 12,
+      "y": 290
+    },
+    {
+      "name": "students",
+      "schemaName": "public",
+      "x": 498.12548828125,
+      "y": 290
+    },
+    {
+      "name": "batches",
+      "schemaName": "public",
+      "x": 498.12548828125,
+      "y": 496
+    },
+    {
+      "name": "installment_plans",
+      "schemaName": "public",
+      "x": 1018.4977523766422,
+      "y": 129.24142766451007
+    },
+    {
+      "name": "referencesT",
+      "schemaName": "public",
+      "x": 12,
+      "y": 560
+    },
+    {
+      "name": "admissions",
+      "schemaName": "public",
+      "x": 1585.09326171875,
+      "y": 290
+    },
+    {
+      "name": "payments",
+      "schemaName": "public",
+      "x": 2068.69091796875,
+      "y": 290
+    },
+    {
+      "name": "exams",
+      "schemaName": "public",
+      "x": 1002.58642578125,
+      "y": 925
+    },
+    {
+      "name": "marks",
+      "schemaName": "public",
+      "x": 1585.09326171875,
+      "y": 592
+    },
+    {
+      "name": "attendance",
+      "schemaName": "public",
+      "x": 1002.58642578125,
+      "y": 559
+    },
+    {
+      "name": "campus",
+      "schemaName": "public",
+      "x": 320.77587890625,
+      "y": 12
+    },
+    {
+      "name": "attendance_qr",
+      "schemaName": "public",
+      "x": 12,
+      "y": 12
+    }
+  ],
+  "tableGroupCollapseStates": [],
+  "stickyNoteLayouts": [],
+  "referencePaths": []
+}
