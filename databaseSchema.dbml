@@ -1,0 +1,147 @@
+// --- Enums ---
+
+Enum user_role {
+  ADMIN
+  RECEPTIONIST
+  STUDENT
+  DIRECTOR
+}
+
+Enum installment_months {
+  "3"
+  "6"
+  "9"
+}
+
+Enum payment_source {
+  "SHARDA Academy ICICI"
+  "Sharda study room"
+  "Sharda offline"
+  "Sharda HDFC"
+  "Pama account"
+  "Bhau account"
+  "cash"
+}
+
+Enum attendance_status {
+  P
+  A
+}
+
+// --- Tables ---
+
+Table users {
+  id uuid [pk, default: `gen_random_uuid()`]
+  name varchar(100) [not null]
+  email varchar(150) [unique, not null]
+  password_hash text [not null]
+  role user_role [not null]
+  created_at timestamp [default: `now()`]
+}
+
+Table students {
+  id uuid [pk, default: `gen_random_uuid()`]
+  user_id uuid [unique, ref: > users.id]
+  phone varchar(20)
+  created_at timestamp [default: `now()`]
+}
+
+Table batches {
+  id uuid [pk, default: `gen_random_uuid()`]
+  name varchar(100) [not null]
+  base_fee numeric(10,2) [not null]
+  start_date date
+  end_date date
+  created_by uuid [ref: > users.id]
+  created_at timestamp [default: `now()`]
+}
+
+Table installment_plans {
+  id uuid [pk, default: `gen_random_uuid()`]
+  batch_id uuid [ref: > batches.id]
+  months installment_months [not null]
+  surcharge numeric(10,2) [default: 0]
+  
+  Indexes {
+    (batch_id, months) [unique]
+  }
+}
+
+Table referencesT {
+  id uuid [pk, default: `gen_random_uuid()`]
+  name varchar(100) [unique, not null]
+  concession numeric(10,2) [default: 0]
+}
+
+Table admissions {
+  id uuid [pk, default: `gen_random_uuid()`]
+  student_id uuid [ref: > students.id]
+  batch_id uuid [ref: > batches.id]
+  installment_plan_id uuid [ref: > installment_plans.id]
+  reference_id uuid [ref: > referencesT.id]
+  final_fee numeric(10,2) [not null]
+  admitted_at timestamp [default: `now()`]
+
+  Indexes {
+    (student_id, batch_id) [unique]
+  }
+}
+
+Table payments {
+  id uuid [pk, default: `gen_random_uuid()`]
+  admission_id uuid [ref: > admissions.id]
+  amount numeric(10,2) [not null]
+  payment_source payment_source [not null]
+  receipt_number varchar(50) [unique, not null]
+  paid_at timestamp [default: `now()`]
+}
+
+Table exams {
+  id uuid [pk, default: `gen_random_uuid()`]
+  batch_id uuid [ref: > batches.id]
+  name varchar(100) [not null]
+  exam_date date [not null]
+}
+
+Table marks {
+  id uuid [pk, default: `gen_random_uuid()`]
+  exam_id uuid [ref: > exams.id]
+  student_id uuid [ref: > students.id]
+  marks integer
+  
+  Indexes {
+    (exam_id, student_id) [unique]
+  }
+}
+
+Table attendance {
+  id uuid [pk, default: `gen_random_uuid()`]
+  batch_id uuid [ref: > batches.id]
+  student_id uuid [ref: > students.id]
+  date date [not null]
+  status attendance_status [not null]
+  latitude decimal(9,6)
+  longitude decimal(9,6)
+  marked_at timestamp [default: `now()`]
+  method varchar(20) [default: 'QR_GEO']
+
+  Indexes {
+    (batch_id, student_id, date) [unique]
+  }
+}
+
+Table campus {
+  id uuid [pk, default: `gen_random_uuid()`]
+  name varchar(100)
+  latitude decimal(9,6) [not null]
+  longitude decimal(9,6) [not null]
+  radius_meters integer [not null]
+}
+
+Table attendance_qr {
+  id uuid [pk, default: `gen_random_uuid()`]
+  token text [unique, not null]
+  valid_date date [unique, not null]
+  expires_at timestamp [not null]
+  created_at timestamp [default: `now()`]
+}
