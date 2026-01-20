@@ -41,12 +41,22 @@ if (result.rows[0].is_active === false){
   });
   
 
-  res.cookie("access_token", token, {
+  const cookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax", // change to 'none' if frontend is on different domain
     maxAge: 24 * 60 * 60 * 1000, // 1 day
-  });
+  };
+
+  // Handle cross-origin cookies (frontend/backend on different subdomains)
+  if (process.env.NODE_ENV === "production") {
+    cookieOptions.sameSite = "none";
+    cookieOptions.secure = true; // Required for sameSite="none"
+  } else {
+    cookieOptions.sameSite = "lax";
+  }
+
+  res.cookie("access_token", token, cookieOptions);
+
 
   res.json({
     message: "Logged in successfully",
@@ -101,11 +111,12 @@ export const register = async (req, res) => {
 
 
 export const logout = (req, res) => {
-  res.clearCookie("access_token", {
+  const cookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-  });
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  };
 
+  res.clearCookie("access_token", cookieOptions);
   res.json({ message: "Logged out" });
 };
