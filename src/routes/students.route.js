@@ -4,7 +4,7 @@ import { authorize } from "../middlewares/authorize.js";
 import {
   listExams,
 } from "../controllers/admin/exam.controller.js";
-import {getMyBatches,getStudentProfile} from "../controllers/student.controller.js";
+import {getMyBatches,getStudentProfile,getMyFeeStatus,getMyMarks} from "../controllers/student.controller.js";
 
 
 
@@ -28,6 +28,12 @@ router.get(
     "/profile",
     getStudentProfile
 )
+
+router.get(
+    "/fee-status",
+    getMyFeeStatus
+)
+router.get("/marks", authenticate, getMyMarks);
 
 
 export default router;

@@ -13,7 +13,7 @@ export const CHECK_ENROLLMENT = `
 export const MARK_PRESENT_BY_QR = `
   INSERT INTO attendance (student_id, batch_id, status, attendance_date) 
   VALUES ($1, $2, 'P', CURRENT_DATE) 
-  ON CONFLICT (student_id, batch_id, attendance_date) 
+  ON CONFLICT ON CONSTRAINT attendance_unique 
   DO NOTHING 
   RETURNING *;
 `;
