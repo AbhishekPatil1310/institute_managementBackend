@@ -40,9 +40,8 @@ const allowedOrigins = [
   "http://localhost:5177",          // local Vite
   "https://your-frontend.vercel.app",
   "https://your-frontend.netlify.app",
-  "https://milton-called-operating-subcommittee.trycloudflare.com",
-  "http://10.201.250.122:5173",
-  "https://cartridge-pontiac-internship-kenny.trycloudflare.com"
+  "https://institute-management-frontend-bfcv.vercel.app"
+
 ];
 
 app.use(
