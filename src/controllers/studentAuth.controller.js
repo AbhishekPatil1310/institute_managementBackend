@@ -11,6 +11,9 @@ import {
   findUserAndStudent
 } from "../models/student.queries.js";
 
+import { comparePassword } from "../utils/password.js";
+
+
 export const studentRegister = async (req, res) => {
   const { name, email, phone } = req.body;
 

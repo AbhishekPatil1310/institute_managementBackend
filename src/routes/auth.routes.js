@@ -5,7 +5,7 @@ import {enforcePasswordChange} from "../middlewares/forcePasswordChange.js";
 import { authenticate } from "../middlewares/auth.js";
 import { authorize } from "../middlewares/authorize.js";
 import { validate } from "../middlewares/validate.js";
-import { studentRegisterSchema,changePasswordSchema } from "../validators/studentRegister.schema.js";
+import { studentRegisterSchema } from "../validators/studentRegister.schema.js";
 import {me} from "../controllers/user.controller.js";
 
 
@@ -35,16 +35,8 @@ router.post(
   register
 );
 
-/**
- * forced-password change
- */
 
-router.post(
-  "/change-password",
-  authenticate,
-  validate(changePasswordSchema),
-  changePassword
-);
+
 router.post("/logout", logout);
 
 
