@@ -47,3 +47,46 @@ export const findUserAndStudent = `
   WHERE u.email = $1 OR s.phone = $2
   LIMIT 1
 `;
+
+
+export const findTheBatchById = `
+  SELECT *
+  FROM batches
+  WHERE id = $1
+`;
+
+
+export const findStudentByUserId=`
+  SELECT *
+  FROM students
+  WHERE user_id = $1
+`;
+
+
+export const getStudentBatchesQuery = `
+  SELECT 
+    b.id AS "batchId",
+    b.name AS "batchName",
+    a.id AS "admissionId",
+    a.final_fee
+  FROM admissions a
+  JOIN batches b ON a.batch_id = b.id
+  JOIN students s ON a.student_id = s.id
+  WHERE s.user_id = $1;
+`;  
+
+export const StudenProfile=
+`
+SELECT 
+    u.name, 
+    u.email, 
+    s.student_code, 
+    s.phone, 
+    s.created_at,
+    b.name AS "primary_batch"
+  FROM students s
+  JOIN users u ON s.user_id = u.id
+  LEFT JOIN admissions a ON a.student_id = s.id
+  LEFT JOIN batches b ON a.batch_id = b.id
+  WHERE u.id = $1
+  LIMIT 1`;

@@ -28,6 +28,7 @@ export const createExam = async (req, res) => {
  * LIST EXAMS FOR A BATCH
  */
 export const listExams = async (req, res) => {
+  
   const { batchId } = req.params;
 
   const result = await query(listExamsByBatch, [batchId]);

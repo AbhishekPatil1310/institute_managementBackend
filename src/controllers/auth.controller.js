@@ -6,6 +6,8 @@ import {
   insertUserByAdmin,
 } from "../models/user.quries.js";
 import { CREATABLE_BY_ADMIN } from "../constants/roles.js";
+import {findStudentByUserId} from "../models/student.queries.js";
+
 
 /**
  * LOGIN (ALL ROLES)
@@ -14,6 +16,9 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
 
   const result = await query(findUserByEmailFull, [email]);
+if (result.rows[0].is_active === false){
+  return res.status(403).json({message:"Account is disabled"})
+}
   if (!result.rowCount) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
@@ -24,13 +29,17 @@ export const login = async (req, res) => {
   if (!isValid) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
-
+  let student_id = null;
+  if (user.role === "STUDENT"){
+    const student = await query(findStudentByUserId, [user.id]);
+    student_id = student.rows[0].id;
+  }
   const token = signToken({
     id: user.id,
     role: user.role,
     forcePasswordChange: user.force_password_change,
   });
-  console.log("forcePasswordChange: ", user.force_password_change)
+  
 
   res.cookie("access_token", token, {
     httpOnly: true,
@@ -38,7 +47,7 @@ export const login = async (req, res) => {
     sameSite: "lax", // change to 'none' if frontend is on different domain
     maxAge: 24 * 60 * 60 * 1000, // 1 day
   });
-console.log('token: ',token);
+
   res.json({
     message: "Logged in successfully",
     user: {
@@ -46,6 +55,7 @@ console.log('token: ',token);
       name: user.name,
       role: user.role,
       forcePasswordChange: user.force_password_change,
+      student:student_id
     },
   });
 };

@@ -1,5 +1,5 @@
 export const findUserByEmailFull = `
-  SELECT id, name, email, password_hash, role,force_password_change
+  SELECT id, name, email, password_hash, role,force_password_change,is_active
   FROM users
   WHERE email = $1
 `;

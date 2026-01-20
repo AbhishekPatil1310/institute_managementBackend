@@ -29,3 +29,5 @@ export const activateUser = `
   WHERE id = $1
   RETURNING id, is_active
 `;
+
+

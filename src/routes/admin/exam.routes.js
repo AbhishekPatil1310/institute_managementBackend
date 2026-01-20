@@ -13,6 +13,9 @@ import {
   deleteExamById,
 } from "../../controllers/admin/exam.controller.js";
 
+import {getSubjects, createSubject} from "../../controllers/admin/subjectManage.controller.js";
+
+
 const router = express.Router();
 
 router.use(authenticate, authorize("ADMIN"));
@@ -38,5 +41,10 @@ router.delete(
   "/exams/:id",
   deleteExamById
 );
+
+
+router.get("/subjects", getSubjects);
+router.post("/subjects", createSubject);
+
 
 export default router;

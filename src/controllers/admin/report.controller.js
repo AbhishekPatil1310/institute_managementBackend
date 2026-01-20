@@ -3,6 +3,7 @@ import {
   monthlyFinancialSummary,
   batchFinancialReport,
   paymentSourceBreakdown,
+  paymentPerBatchPerSource,
 } from "../../models/admin/report.financial.queries.js";
 import {
   batchAttendanceMonthly,
@@ -33,6 +34,13 @@ export const batchFinancial = async (req, res) => {
   const result = await query(batchFinancialReport, [batchId]);
   res.json(result.rows[0]);
 };
+
+export const paymentSourcesBatch = async (req, res) => {
+  
+  const { batchId } = req.params;
+  const result = await query(paymentPerBatchPerSource, [batchId]);
+  res.json(result.rows);
+}
 
 export const paymentSources = async (req, res) => {
   const { month } = req.query;

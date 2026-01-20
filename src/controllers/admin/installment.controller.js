@@ -29,11 +29,11 @@ export const createInstallment = async (req, res) => {
  */
 export const listInstallmentsByBatch = async (req, res) => {
   const { batchId } = req.params;
-  console.log('hit me list installments by batch: ',batchId)
+  
 
   const result = await query(getInstallmentsByBatch, [batchId]);
   res.json(result.rows);
-  console.log('result: ',result.rows)
+  
 };
 
 /**

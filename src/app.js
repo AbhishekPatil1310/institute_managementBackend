@@ -13,6 +13,11 @@ import adminUserRoutes from "./routes/admin/user.routes.js";
 import adminExamRoutes from "./routes/admin/exam.routes.js";
 import adminReportRoutes from "./routes/admin/report.routes.js";
 import adminAttendanceQrRoutes from "./routes/admin/attendanceQr.routes.js";
+import studentRoutes from "./routes/students.route.js";
+import admindashboardRoute from "./routes/admin/dashboard.routes.js"
+import dtproutes from "./routes/DTP/dtp.routes.js"
+import attendanceRoutes from "./routes/attendance/attendance.routes.js";
+
 
 
 
@@ -29,8 +34,15 @@ app.use(cookieParser());
 */
 const allowedOrigins = [
   "http://localhost:5173",          // local Vite
+  "http://localhost:5174",          // local Vite
+  "http://localhost:5175",          // local Vite
+  "http://localhost:5176",          // local Vite
+  "http://localhost:5177",          // local Vite
   "https://your-frontend.vercel.app",
   "https://your-frontend.netlify.app",
+  "https://milton-called-operating-subcommittee.trycloudflare.com",
+  "http://10.201.250.122:5173",
+  "https://cartridge-pontiac-internship-kenny.trycloudflare.com"
 ];
 
 app.use(
@@ -45,7 +57,7 @@ app.use(
       
       return callback(new Error("CORS not allowed"));
     },
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
@@ -76,6 +88,10 @@ app.use("/api/admin", adminUserRoutes);
 app.use("/api/admin", adminExamRoutes);
 app.use("/api/admin", adminReportRoutes);
 app.use("/api/admin", adminAttendanceQrRoutes);
+app.use("/api/students", studentRoutes);
+app.use("/api/admin", admindashboardRoute);
+app.use("/api/dtp", dtproutes);
+app.use("/api/clerk/attendance", attendanceRoutes);
 
 /**
  * Global Error Handler
