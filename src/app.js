@@ -17,6 +17,8 @@ import studentRoutes from "./routes/students.route.js";
 import admindashboardRoute from "./routes/admin/dashboard.routes.js"
 import dtproutes from "./routes/DTP/dtp.routes.js"
 import attendanceRoutes from "./routes/attendance/attendance.routes.js";
+import exclereport from "./routes/admin/excleReports.routes.js";
+
 
 
 
@@ -91,6 +93,7 @@ app.use("/api/students", studentRoutes);
 app.use("/api/admin", admindashboardRoute);
 app.use("/api/dtp", dtproutes);
 app.use("/api/clerk/attendance", attendanceRoutes);
+app.use("/api/admins/reports", exclereport);
 
 /**
  * Global Error Handler

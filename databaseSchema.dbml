@@ -1,34 +1,4 @@
-// --- Enums ---
-
-Enum user_role {
-  ADMIN
-  RECEPTIONIST
-  STUDENT
-  DIRECTOR
-}
-
-Enum installment_months {
-  "3"
-  "6"
-  "9"
-}
-
-Enum payment_source {
-  "SHARDA Academy ICICI"
-  "Sharda study room"
-  "Sharda offline"
-  "Sharda HDFC"
-  "Pama account"
-  "Bhau account"
-  "cash"
-}
-
-Enum attendance_status {
-  P
-  A
-}
-
-// --- Tables ---
+// --- User & Identity Management ---
 
 Table users {
   id uuid [pk, default: `gen_random_uuid()`]
@@ -37,6 +7,9 @@ Table users {
   password_hash text [not null]
   role user_role [not null]
   created_at timestamp [default: `now()`]
+  created_by uuid [ref: > users.id]
+  force_password_change boolean [not null, default: false]
+  is_active boolean [not null, default: true]
 }
 
 Table students {
@@ -44,7 +17,15 @@ Table students {
   user_id uuid [unique, ref: > users.id]
   phone varchar(20)
   created_at timestamp [default: `now()`]
+  student_code varchar(20) [unique]
 }
+
+Table student_year_counter {
+  year integer [pk]
+  counter integer [not null]
+}
+
+// --- Academic Structure ---
 
 Table batches {
   id uuid [pk, default: `gen_random_uuid()`]
@@ -54,6 +35,19 @@ Table batches {
   end_date date
   created_by uuid [ref: > users.id]
   created_at timestamp [default: `now()`]
+}
+
+Table subjects {
+  id uuid [pk, default: `gen_random_uuid()`]
+  name varchar(100) [unique, not null]
+}
+
+// --- Admissions & Financials ---
+
+Table referencest {
+  id uuid [pk, default: `gen_random_uuid()`]
+  name varchar(100) [unique, not null]
+  concession numeric(10,2) [default: 0]
 }
 
 Table installment_plans {
@@ -67,18 +61,12 @@ Table installment_plans {
   }
 }
 
-Table referencesT {
-  id uuid [pk, default: `gen_random_uuid()`]
-  name varchar(100) [unique, not null]
-  concession numeric(10,2) [default: 0]
-}
-
 Table admissions {
   id uuid [pk, default: `gen_random_uuid()`]
   student_id uuid [ref: > students.id]
   batch_id uuid [ref: > batches.id]
   installment_plan_id uuid [ref: > installment_plans.id]
-  reference_id uuid [ref: > referencesT.id]
+  reference_id uuid [ref: > referencest.id]
   final_fee numeric(10,2) [not null]
   admitted_at timestamp [default: `now()`]
 
@@ -96,46 +84,54 @@ Table payments {
   paid_at timestamp [default: `now()`]
 }
 
+// --- Exams & Marks ---
+
 Table exams {
   id uuid [pk, default: `gen_random_uuid()`]
   batch_id uuid [ref: > batches.id]
   name varchar(100) [not null]
   exam_date date [not null]
+  created_at timestamp [default: `now()`]
+}
+
+Table exam_subjects {
+  id uuid [pk, default: `gen_random_uuid()`]
+  exam_id uuid [ref: > exams.id]
+  subject_id uuid [ref: > subjects.id]
+  max_marks integer [default: 100]
+
+  Indexes {
+    (exam_id, subject_id) [unique]
+  }
 }
 
 Table marks {
   id uuid [pk, default: `gen_random_uuid()`]
   exam_id uuid [ref: > exams.id]
   student_id uuid [ref: > students.id]
-  marks integer
-  
+  subject_id uuid [ref: > subjects.id]
+  marks_obtained integer
+  max_marks integer [default: 100]
+
   Indexes {
     (exam_id, student_id) [unique]
+    (exam_id, student_id, subject_id) [unique]
   }
 }
+
+// --- Attendance & Location ---
 
 Table attendance {
   id uuid [pk, default: `gen_random_uuid()`]
-  batch_id uuid [ref: > batches.id]
-  student_id uuid [ref: > students.id]
-  date date [not null]
+  batch_id uuid [not null, ref: > batches.id]
+  student_id uuid [not null, ref: > students.id]
+  attendance_date date [not null]
   status attendance_status [not null]
-  latitude decimal(9,6)
-  longitude decimal(9,6)
   marked_at timestamp [default: `now()`]
-  method varchar(20) [default: 'QR_GEO']
 
   Indexes {
-    (batch_id, student_id, date) [unique]
+    (batch_id, student_id, attendance_date) [unique]
   }
-}
-
-Table campus {
-  id uuid [pk, default: `gen_random_uuid()`]
-  name varchar(100)
-  latitude decimal(9,6) [not null]
-  longitude decimal(9,6) [not null]
-  radius_meters integer [not null]
 }
 
 Table attendance_qr {
@@ -144,4 +140,13 @@ Table attendance_qr {
   valid_date date [unique, not null]
   expires_at timestamp [not null]
   created_at timestamp [default: `now()`]
+  created_by uuid [ref: > users.id]
+}
+
+Table campus {
+  id uuid [pk, default: `gen_random_uuid()`]
+  name varchar(100)
+  latitude numeric(9,6) [not null]
+  longitude numeric(9,6) [not null]
+  radius_meters integer [not null]
 }
