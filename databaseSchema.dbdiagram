@@ -17,22 +17,34 @@
       "y": 290
     },
     {
+      "name": "student_year_counter",
+      "schemaName": "public",
+      "x": 12,
+      "y": 1167
+    },
+    {
       "name": "batches",
       "schemaName": "public",
       "x": 498.12548828125,
       "y": 496
     },
     {
+      "name": "subjects",
+      "schemaName": "public",
+      "x": 273.3115234375,
+      "y": 1167
+    },
+    {
+      "name": "referencest",
+      "schemaName": "public",
+      "x": 536.1533203125,
+      "y": 1167
+    },
+    {
       "name": "installment_plans",
       "schemaName": "public",
       "x": 1018.4977523766422,
       "y": 129.24142766451007
-    },
-    {
-      "name": "referencesT",
-      "schemaName": "public",
-      "x": 12,
-      "y": 560
     },
     {
       "name": "admissions",
@@ -53,6 +65,12 @@
       "y": 925
     },
     {
+      "name": "exam_subjects",
+      "schemaName": "public",
+      "x": 826.27880859375,
+      "y": 1167
+    },
+    {
       "name": "marks",
       "schemaName": "public",
       "x": 1585.09326171875,
@@ -65,19 +83,290 @@
       "y": 559
     },
     {
-      "name": "campus",
-      "schemaName": "public",
-      "x": 320.77587890625,
-      "y": 12
-    },
-    {
       "name": "attendance_qr",
       "schemaName": "public",
       "x": 12,
+      "y": 12
+    },
+    {
+      "name": "campus",
+      "schemaName": "public",
+      "x": 320.77587890625,
       "y": 12
     }
   ],
   "tableGroupCollapseStates": [],
   "stickyNoteLayouts": [],
-  "referencePaths": []
+  "referencePaths": [
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "users",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "created_by"
+      ],
+      "secondTableName": "users",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "users",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "user_id"
+      ],
+      "secondTableName": "students",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "users",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "created_by"
+      ],
+      "secondTableName": "batches",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "batches",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "batch_id"
+      ],
+      "secondTableName": "installment_plans",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "students",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "student_id"
+      ],
+      "secondTableName": "admissions",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "batches",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "batch_id"
+      ],
+      "secondTableName": "admissions",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "installment_plans",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "installment_plan_id"
+      ],
+      "secondTableName": "admissions",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "referencest",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "reference_id"
+      ],
+      "secondTableName": "admissions",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "admissions",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "admission_id"
+      ],
+      "secondTableName": "payments",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "batches",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "batch_id"
+      ],
+      "secondTableName": "exams",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "exams",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "exam_id"
+      ],
+      "secondTableName": "exam_subjects",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "subjects",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "subject_id"
+      ],
+      "secondTableName": "exam_subjects",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "exams",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "exam_id"
+      ],
+      "secondTableName": "marks",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "students",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "student_id"
+      ],
+      "secondTableName": "marks",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "subjects",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "subject_id"
+      ],
+      "secondTableName": "marks",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "batches",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "batch_id"
+      ],
+      "secondTableName": "attendance",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "students",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "student_id"
+      ],
+      "secondTableName": "attendance",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "users",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "created_by"
+      ],
+      "secondTableName": "attendance_qr",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    }
+  ]
 }

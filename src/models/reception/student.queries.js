@@ -28,3 +28,12 @@ export const getStudentByPending = `
   HAVING (a.final_fee - COALESCE(SUM(p.amount), 0)) > 0
   ORDER BY "pendingBalance" DESC;
 `;
+
+
+export const updateStudentNameInDB = `
+    UPDATE users 
+    SET name = $1 
+    WHERE id = (SELECT user_id FROM students WHERE id = $2)
+    RETURNING name;
+  `;
+
