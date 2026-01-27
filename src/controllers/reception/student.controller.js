@@ -1,5 +1,5 @@
 import { query } from "../../config/db.js";
-import { searchStudentByPhone, getStudentByPending,updateStudentNameInDB} from "../../models/reception/student.queries.js";
+import { searchStudentByPhone, getStudentByPending,updateStudentNameInDB,getStudentByPendingByPhone} from "../../models/reception/student.queries.js";
 
 export const searchStudent = async (req, res) => {
   const { q } = req.query;
@@ -86,5 +86,34 @@ export const updateStudentName = async (req, res) => {
   } catch (error) {
     console.error("Update Error:", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+export const searchPendingFeesByPhone = async (req, res) => {
+  try {
+    const { phone } = req.query;
+
+    if (!phone) {
+      return res.status(400).json({ message: "Phone number is required for search" });
+    }
+
+    // Format for partial matching (e.g., '123' becomes '%123%')
+    const searchPattern = `%${phone}%`;
+
+    const result = await query(getStudentByPendingByPhone, [searchPattern]);
+
+    if (result.rows.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No students found with pending fees for this phone number",
+        data: []
+      });
+    }
+
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error("Error searching pending fees by phone:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
