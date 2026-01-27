@@ -9,6 +9,7 @@ export const searchStudentByPhone = `
   WHERE s.phone ILIKE $1
 `;
 
+// Added $1 (Limit) and $2 (Offset)
 export const getStudentByPending = `
   SELECT 
     s.id AS "studentId",
@@ -26,9 +27,20 @@ export const getStudentByPending = `
   LEFT JOIN payments p ON a.id = p.admission_id
   GROUP BY s.id, u.name, s.phone, b.name, a.final_fee, a.id
   HAVING (a.final_fee - COALESCE(SUM(p.amount), 0)) > 0
-  ORDER BY "pendingBalance" DESC;
+  ORDER BY "pendingBalance" DESC
+  LIMIT $1 OFFSET $2;
 `;
 
+// New query to get total count for pagination metadata
+export const getPendingFeesCount = `
+  SELECT COUNT(*) FROM (
+    SELECT a.id
+    FROM admissions a
+    LEFT JOIN payments p ON a.id = p.admission_id
+    GROUP BY a.id, a.final_fee
+    HAVING (a.final_fee - COALESCE(SUM(p.amount), 0)) > 0
+  ) as subquery;
+`;
 
 export const updateStudentNameInDB = `
     UPDATE users 
@@ -61,4 +73,4 @@ JOIN batches b ON a.batch_id = b.id
 LEFT JOIN PaymentSums ps ON a.id = ps.admission_id
 WHERE (a.final_fee - COALESCE(ps.paidAmount, 0)) > 0
 AND s.phone ILIKE $1
-ORDER BY "pendingBalance" DESC;`
+ORDER BY "pendingBalance" DESC;`;
