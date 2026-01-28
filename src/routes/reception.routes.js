@@ -1,7 +1,7 @@
 import express from "express";
 import { authenticate } from "../middlewares/auth.js";
 import { authorize } from "../middlewares/authorize.js";
-import { createAdmission } from "../controllers/reception/admission.controller.js";
+import { createAdmission,fetchReferences } from "../controllers/reception/admission.controller.js";
 import { createPayment, fetchPayments,paymentSource} from "../controllers/reception/payment.controller.js";
 import {searchStudent,getPendingFeesStudents,updateStudentName,searchPendingFeesByPhone}  from "../controllers/reception/student.controller.js";
 import {listInstallmentsByBatch} from "../controllers/admin/installment.controller.js";
@@ -28,5 +28,7 @@ router.get("/payments", fetchPayments)
 
 router.patch("/students/:id/name", updateStudentName);
 router.get("/students/pending-fees/search", searchPendingFeesByPhone);// router.get("/dashboard", getPaymentAmountCountC)
+router.get("/references", fetchReferences);
+
 
 export default router;

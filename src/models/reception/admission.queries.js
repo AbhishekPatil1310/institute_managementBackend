@@ -10,8 +10,13 @@ export const getInstallmentSurcharge =
 `;
 
 export const getReferenceConcession = `
-  SELECT concession FROM references WHERE id = $1
+  SELECT concession FROM referencest WHERE id = $1
 `;
+
+export const referenceList=
+`
+select * from referencest;
+`
 
 export const insertAdmission = `
   INSERT INTO admissions (
