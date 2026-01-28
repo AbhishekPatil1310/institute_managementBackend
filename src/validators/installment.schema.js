@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const createInstallmentSchema = z.object({
-  months: z.enum(["3", "6", "9","NO Limit"]),
+  months: z.enum(["1", "2", "3","4","NO Limit"]),
   surcharge: z.number().min(0),
 });
 
